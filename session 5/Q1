@@ -11,3 +11,13 @@ WHERE EXTRACT(MONTH FROM event_date) = 7
       AND EXTRACT(YEAR FROM event_date) = 2022
   )
 GROUP BY EXTRACT(MONTH FROM event_date);
+---------------------------------------------------------------
+
+select 7 as month, count(DISTINCT a.user_id) as monthly_active_user 
+from user_actions a 
+join user_actions b 
+on a.user_id = b.user_id 
+WHERE a.event_date >= '2022-07-01'
+  AND a.event_date <  '2022-08-01'
+  AND b.event_date >= '2022-06-01'
+  AND b.event_date <  '2022-07-01';
