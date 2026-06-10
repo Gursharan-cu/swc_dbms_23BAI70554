@@ -1,0 +1,9 @@
+with cte as (
+select *, LAG(transaction_timestamp)over
+          (partition by merchant_id,credit_card_id,amount
+           order by transaction_timestamp) as prev_time
+ from transactions)
+
+select count(*) as payment_count
+from cte where prev_time is not null 
+and transaction_timestamp <= prev_time + interval '10MIN';
